@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gacha Club - Play Online</title>
     <style>
-        html, body {
+        html,
+        body {
             margin: 0;
             width: 100%;
             height: 100%;
@@ -24,49 +26,50 @@
             height: 100%;
             max-width: 960px;
             max-height: 540px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         ruffle-player {
+            display: block;
             width: 100%;
             height: 100%;
-            display: block;
         }
     </style>
-    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+
+    <script>
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.RufflePlayer.config = {
+            autoplay: "on",
+            unmuteOverlay: "hidden",
+            splashScreen: false,
+            allowScriptAccess: true
+        };
+    </script>
+
+    <script src="https://unpkg.com/@ruffle-rs/ruffle/ruffle.js"></script>
 </head>
+
 <body>
     <div id="flash-container"></div>
 
     <script>
-        window.addEventListener("DOMContentLoaded", function () {
-            if (!window.RufflePlayer) {
-                console.error("Ruffle failed to load.");
-                return;
-            }
-
+        window.addEventListener("DOMContentLoaded", () => {
             const ruffle = window.RufflePlayer.newest();
-
-            if (!ruffle) {
-                console.error("Ruffle player is unavailable.");
-                return;
-            }
-
             const player = ruffle.createPlayer();
             const container = document.getElementById("flash-container");
 
+            player.style.width = "100%";
+            player.style.height = "100%";
+
             container.appendChild(player);
 
-            player.config = {
+            player.ruffle().load({
+                url: "GachaClub.swf",
                 autoplay: "on",
-                unmuteOverlay: "true",
+                unmuteOverlay: "hidden",
                 allowScriptAccess: true
-            };
-
-            player.load("GachaClub.swf");
+            });
         });
     </script>
 </body>
 </html>
+```
