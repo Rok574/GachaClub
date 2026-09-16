@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,22 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gacha Club - Play Online</title>
     <style>
-        /* This centers the game on your screen and makes it look clean */
+        html,
         body {
             margin: 0;
-            padding: 0;
-            background-color: #000000;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
         }
+
         #flash-container {
             width: 100%;
-            max-width: 960px; /* Adjust the width to fit the game's aspect ratio */
             height: 100%;
-            max-height: 540px; /* Adjust the height to fit the game's aspect ratio */
+            max-width: 960px;
+            max-height: 540px;
+        }
+
+        ruffle-player {
+            display: block;
+            width: 100%;
+            height: 100%;
         }
     </style>
     <!-- 1. Load the official Ruffle player script from a public CDN -->
@@ -28,30 +39,41 @@
 </head>
 <body>
 
-    <!-- 2. The container where your Flash game will load -->
+
+    <script>
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.RufflePlayer.config = {
+            autoplay: "on",
+            unmuteOverlay: "hidden",
+            splashScreen: false,
+            allowScriptAccess: true
+        };
+    </script>
+
+    <script src="https://unpkg.com/@ruffle-rs/ruffle/ruffle.js"></script>
+</head>
+
+<body>
     <div id="flash-container"></div>
 
     <script>
-        // 3. Wait for the webpage to completely load
         window.addEventListener("DOMContentLoaded", () => {
-            // Access the Ruffle object loaded from the CDN
             const ruffle = window.RufflePlayer.newest();
-            
-            // Create a new player element
             const player = ruffle.createPlayer();
-            
-            // Find our HTML container and put the player inside it
             const container = document.getElementById("flash-container");
+
+            player.style.width = "100%";
+            player.style.height = "100%";
+
             container.appendChild(player);
 
-            // 4. Configure and load your specific SWF file
-            player.load({
+            player.ruffle().load({
                 url: "GachaClub.swf",
-                // Enables the browser to store shared objects (.sol files / save data)
+                autoplay: "on",
+                unmuteOverlay: "hidden",
                 allowScriptAccess: true
             });
         });
     </script>
-
 </body>
 </html>
